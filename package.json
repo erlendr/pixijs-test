@@ -1,0 +1,22 @@
+{
+  "name": "pixijs-test",
+  "version": "0.0.1",
+  "description": "pixijs-test\r ===========",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/erlendr/pixijs-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/erlendr/pixijs-test/issues"
+  },
+  "homepage": "https://github.com/erlendr/pixijs-test",
+  "dependencies": {
+    "node-static": "^0.7.3"
+  }
+}
