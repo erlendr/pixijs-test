@@ -34,16 +34,21 @@ function circle(radius, backgroundColor, borderColor, borderWidth ) {
   return circle;
 };
 
+var ACC = 0.05;
+var SPEEDRANGE = 2;
+var AMOUNT = 10;
+
 var PARTICLE = function() {
   this.sprite = new circle(10, 0xFF0000, 0xFFFFFF, 0)
   
   this.sprite.position.x = screenx/2;
-  this.sprite.position.y = screeny/2;
+  this.sprite.position.y = screeny;
 
-  this.acceleration = $V([0, 0.05]);
-  this.speed = $V([randomRange(-1,1), randomRange(-2,0)]);
+  this.acceleration = $V([0, ACC]);
+  console.log(this.acceleration.elements[1]);
+  this.speed = $V([randomRange(-SPEEDRANGE,SPEEDRANGE), randomRange(-10,0)]);
   this.age = 0;
-  this.life = 60 * 4 * Math.random();
+  this.life = 60 * 3 * Math.random();
   
   return this;
 }
@@ -57,7 +62,7 @@ function updateParticle(b) {
   b.sprite.position.x += b.speed.elements[0];
   b.sprite.position.y += b.speed.elements[1];
 
-  if(b.sprite.position.x > 1024 || b.sprite.position.y > 768 || (b.age > b.life)) {
+  if(b.sprite.position.x > screenx || b.sprite.position.y > screeny || (b.age > b.life)) {
     stage.removeChild(b.sprite);
     objects.remove(b);
   }
@@ -73,23 +78,41 @@ objects.remove = function(o) {
   }
 };
 
-for(var i = 0; i < 10; i++) {
+for(var i = 0; i < AMOUNT; i++) {
   objects.push(new PARTICLE());
 }
 
 objects.push(new PARTICLE());
 
 function animate() {
-  setTimeout(animate, 16.6);
+  requestAnimFrame(animate);
 
   for(var i = 0; i < objects.length; i++) {
     stage.addChild(objects[i].sprite);
     updateParticle(objects[i]);
   }
 
-  for(var i = 0; i < 1; i++) {
+  for(var i = 0; i < AMOUNT; i++) {
     objects.push(new PARTICLE);
   }
   // render the stage
   renderer.render(stage);
 }
+
+var speedSlider = document.getElementById("speed");
+var speedChange = function(e) {
+  SPEEDRANGE = e.srcElement.value/10;
+}
+speedSlider.onchange = speedChange;
+
+var accSlider = document.getElementById("acc");
+var accChange = function(e) {
+  ACC = e.srcElement.value/10000;
+}
+accSlider.onchange = accChange;
+
+var amountSlider = document.getElementById("amount");
+var amountChange = function(e) {
+  AMOUNT = e.srcElement.value;
+}
+amountSlider.onchange = amountChange;
